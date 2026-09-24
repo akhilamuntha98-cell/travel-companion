@@ -1,0 +1,61 @@
+{% extends 'travel/base.html' %}
+
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 30px auto;">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h2>🚗 Add Your Trip</h2>
+        <p style="color: #64748b;">Fill in your travel details to find matching companions.</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Source:</label>
+        {{ form.source }}
+
+        <label>Destination:</label>
+        {{ form.destination }}
+
+        <label>Travel Date:</label>
+        {{ form.travel_date }}
+
+        <label>Phone Number / WhatsApp:</label>
+        {{ form.phone_number }}
+
+        <label>Are you travelling as:</label>
+        <select name="travel_role" id="travel_role" class="form-control" onchange="toggleVehicleFields()" style="width: 100%; padding: 13px; margin-top: 8px; margin-bottom: 12px; border: 1px solid #cbd5e1; border-radius: 9px; font-size: 15px;">
+            <option value="passenger">Passenger (Looking for a ride)</option>
+            <option value="owner">Vehicle Owner (Offering a ride)</option>
+        </select>
+
+        <!-- Dynamic Vehicle Fields (Hidden by default for passengers) -->
+        <div id="vehicle_fields" style="display: none; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 15px;">
+            <h4 style="margin-bottom: 10px; color: #1e293b;">Vehicle Details</h4>
+            
+            <label>Vehicle Type (e.g. Car, Bike):</label>
+            {{ form.vehicle_type }}
+
+            <label>Total Seats:</label>
+            {{ form.total_seats }}
+
+            <label>Filled Seats (People already in vehicle):</label>
+            {{ form.filled_seats }}
+        </div>
+
+        <script>
+            function toggleVehicleFields() {
+                var role = document.getElementById('travel_role').value;
+                var fields = document.getElementById('vehicle_fields');
+                if (role === 'owner') {
+                    fields.style.display = 'block';
+                } else {
+                    fields.style.display = 'none';
+                }
+            }
+        </script>
+
+        <br>
+        <button type="submit" class="btn" style="width: 100%; text-align: center;">Find Travel Matches →</button>
+    </form>
+</div>
+{% endblock %}

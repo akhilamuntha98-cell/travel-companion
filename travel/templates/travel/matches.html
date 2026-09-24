@@ -1,0 +1,486 @@
+{% extends 'travel/base.html' %}
+
+{% block content %}
+
+<style>
+    .trip-card {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        max-width: 700px;
+        margin: 20px auto;
+        font-family: Arial, sans-serif;
+    }
+
+    .trip-card h3 {
+        text-align: center;
+        color: #1f3c88;
+        margin-bottom: 20px;
+    }
+
+    .trip-card h4 {
+        color: #333;
+        margin-top: 25px;
+        margin-bottom: 15px;
+    }
+
+    .trip-card p {
+        margin: 12px 0;
+        color: #444;
+    }
+
+    .trip-info {
+        background: #f8f9fa;
+        padding: 18px;
+        border-radius: 10px;
+    }
+
+    .badge {
+        padding: 5px 10px;
+        border-radius: 12px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .vehicle-badge {
+        background-color: #e3f2fd;
+        color: #0d47a1;
+    }
+
+    .passenger-badge {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .available-badge {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .status-badge {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .match-box {
+        background: #f8f9fa;
+        padding: 18px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #eeeeee;
+    }
+
+    .match-box h4 {
+        margin-top: 0;
+        color: #1f3c88;
+    }
+
+    .request-box {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .request-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn {
+        color: white;
+        padding: 7px 14px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .request-btn {
+        background-color: #0d6efd;
+    }
+
+    .request-btn:hover {
+        background-color: #0b5ed7;
+    }
+
+    .accept-btn {
+        background-color: #198754;
+    }
+
+    .accept-btn:hover {
+        background-color: #157347;
+    }
+
+    .reject-btn {
+        background-color: #dc3545;
+    }
+
+    .reject-btn:hover {
+        background-color: #bb2d3b;
+    }
+
+    .accepted {
+        color: #198754;
+        font-weight: 600;
+    }
+
+    .rejected {
+        color: #dc3545;
+        font-weight: 600;
+    }
+
+    .pending {
+        color: #856404;
+        font-weight: 600;
+    }
+
+    .no-request {
+        color: #6c757d;
+        font-style: italic;
+    }
+
+    .section-title {
+        color: #333;
+        margin-top: 25px;
+        margin-bottom: 15px;
+    }
+</style>
+
+
+<div class="card trip-card">
+
+    <!-- YOUR TRIP -->
+    <h3>Your Trip</h3>
+
+    <div class="trip-info">
+
+        <p>
+            <strong>From:</strong>
+            {{ trip.source }}
+        </p>
+
+        <p>
+            <strong>Destination:</strong>
+            {{ trip.destination }}
+        </p>
+
+        <p>
+            <strong>Travel Date:</strong>
+            {{ trip.travel_date|date:"M. d, Y" }}
+        </p>
+
+
+        <!-- VEHICLE USER -->
+        {% if trip.vehicle_type %}
+
+            <p>
+                <strong>Vehicle Type:</strong>
+                <span class="badge vehicle-badge">
+                    {{ trip.vehicle_type }}
+                </span>
+            </p>
+
+            <p>
+                <strong>Total Seats:</strong>
+                {{ trip.total_seats }}
+            </p>
+
+            <p>
+                <strong>Filled Seats:</strong>
+                {{ trip.filled_seats }}
+            </p>
+
+            <p>
+                <strong>Available Seats:</strong>
+                <span class="badge available-badge">
+                    {{ trip.available_seats }}
+                </span>
+            </p>
+
+        <!-- PASSENGER -->
+        {% else %}
+
+            <p>
+                <strong>Vehicle Type:</strong>
+                <span class="badge passenger-badge">
+                    No Vehicle
+                </span>
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                <span class="badge status-badge">
+                    Looking for a vehicle
+                </span>
+            </p>
+
+        {% endif %}
+
+
+        {% if trip.phone_number %}
+
+            <p>
+                <strong>Phone:</strong>
+                {{ trip.phone_number }}
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <hr style="margin:25px 0;
+               border:0;
+               border-top:1px solid #eee;">
+
+
+    <!-- ================================================= -->
+    <!-- PASSENGER: SHOW VEHICLE USERS -->
+    <!-- ================================================= -->
+
+    {% if not trip.vehicle_type %}
+
+        <h4 class="section-title">
+            Available Vehicle Users
+        </h4>
+
+
+        {% if matches %}
+
+            {% for matched_trip in matches %}
+
+                <div class="match-box">
+
+                    <h4>
+                        {{ matched_trip.user.username }}
+                    </h4>
+
+
+                    <p>
+                        <strong>From:</strong>
+                        {{ matched_trip.source }}
+                    </p>
+
+
+                    <p>
+                        <strong>Destination:</strong>
+                        {{ matched_trip.destination }}
+                    </p>
+
+
+                    <p>
+                        <strong>Travel Date:</strong>
+                        {{ matched_trip.travel_date|date:"M. d, Y" }}
+                    </p>
+
+
+                    <!-- VEHICLE TYPE -->
+
+                    <p>
+                        <strong>Vehicle Type:</strong>
+
+                        {% if matched_trip.vehicle_type %}
+
+                            <span class="badge vehicle-badge">
+                                {{ matched_trip.vehicle_type }}
+                            </span>
+
+                        {% else %}
+
+                            No Vehicle
+
+                        {% endif %}
+
+                    </p>
+
+
+                    <!-- SEATS -->
+
+                    <p>
+                        <strong>Total Seats:</strong>
+                        {{ matched_trip.total_seats }}
+                    </p>
+
+
+                    <p>
+                        <strong>Filled Seats:</strong>
+                        {{ matched_trip.filled_seats }}
+                    </p>
+
+
+                    <p>
+                        <strong>Available Seats:</strong>
+
+                        <span class="badge available-badge">
+                            {{ matched_trip.available_seats }}
+                        </span>
+
+                    </p>
+
+
+                    {% if matched_trip.phone_number %}
+
+                        <p>
+                            <strong>Phone:</strong>
+                            {{ matched_trip.phone_number }}
+                        </p>
+
+                    {% endif %}
+
+
+                    <!-- REQUEST BUTTON -->
+
+                    {% if matched_trip.available_seats > 0 %}
+
+                        <a
+                            href="{% url 'send_trip_request' matched_trip.id %}"
+                            class="btn request-btn"
+                        >
+                            Request to Join
+                        </a>
+
+                    {% else %}
+
+                        <span class="rejected">
+                            No seats available
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <p class="no-request">
+                No vehicle users found for this
+                destination and travel date.
+            </p>
+
+        {% endif %}
+
+
+    <!-- ================================================= -->
+    <!-- VEHICLE USER: SHOW PASSENGER REQUESTS -->
+    <!-- ================================================= -->
+
+    {% else %}
+
+        <h4 class="section-title">
+            Incoming Passenger Requests
+        </h4>
+
+
+        {% for req in trip.requests.all %}
+
+            <div class="request-box">
+
+                <div>
+
+                    <strong>
+                        {{ req.sender.username }}
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        wants to join your vehicle.
+                    </small>
+
+                    <br>
+
+                    <small>
+                        Status:
+                    </small>
+
+
+                    {% if req.status == 'Pending' %}
+
+                        <span class="pending">
+                            Pending
+                        </span>
+
+                    {% elif req.status == 'Accepted' %}
+
+                        <span class="accepted">
+                            Accepted
+                        </span>
+
+                    {% elif req.status == 'Rejected' %}
+
+                        <span class="rejected">
+                            Rejected
+                        </span>
+
+                    {% else %}
+
+                        {{ req.status }}
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- ACCEPT / REJECT -->
+
+                {% if req.status == 'Pending' %}
+
+                    <div class="request-buttons">
+
+                        <a
+                            href="{% url 'update_trip_request' req.id 'accept' %}"
+                            class="btn accept-btn"
+                        >
+                            Accept
+                        </a>
+
+                        <a
+                            href="{% url 'update_trip_request' req.id 'reject' %}"
+                            class="btn reject-btn"
+                        >
+                            Reject
+                        </a>
+
+                    </div>
+
+
+                {% elif req.status == 'Accepted' %}
+
+                    <span class="accepted">
+                        Accepted
+                    </span>
+
+
+                {% elif req.status == 'Rejected' %}
+
+                    <span class="rejected">
+                        Rejected
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+        {% empty %}
+
+            <p class="no-request">
+                No incoming requests yet.
+            </p>
+
+        {% endfor %}
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        TravelMate AI
+    </title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 70px;
+            background: #172554;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #93c5fd;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            width: 86%;
+            max-width: 1150px;
+            margin: 40px auto;
+        }
+
+        /* BUTTON */
+
+        .btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 13px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-light {
+            background: white;
+            color: #2563eb;
+        }
+
+        /* CARD */
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+
+        /* GRID */
+
+        .grid {
+            display: grid;
+            grid-template-columns:
+            repeat(auto-fit, minmax(250px, 1fr));
+
+            gap: 22px;
+            margin-top: 30px;
+        }
+
+        /* FORM */
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            margin-top: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 15px;
+        }
+
+        /* HERO */
+
+        .hero {
+            padding: 75px 40px;
+            text-align: center;
+            border-radius: 25px;
+
+            background:
+            linear-gradient(
+                135deg,
+                #dbeafe,
+                #eef2ff
+            );
+        }
+
+        .hero-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            max-width: 760px;
+            margin: auto;
+            color: #475569;
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .feature-icon {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 22px;
+            background: #ecfdf5;
+            border-left: 5px solid #10b981;
+            border-radius: 10px;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            margin-top: 50px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <div class="logo">
+        ✈️ TravelMate AI
+    </div>
+
+    <div>
+
+        {% if user.is_authenticated %}
+
+            <a href="/dashboard/">Dashboard</a>
+
+            <a href="/matches/">Matches</a>
+
+            <a href="/budget/">AI Budget</a>
+
+            <a href="/expenses/">Expenses</a>
+
+            <a href="/logout/">Logout</a>
+
+        {% else %}
+
+            <a href="/">Home</a>
+
+            <a href="/login/">Login</a>
+
+            <a href="/register/">Register</a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    {% block content %}
+
+    {% endblock %}
+
+</div>
+
+
+<footer>
+
+    TravelMate AI |
+    Smart Travel Companion
+
+</footer>
+
+
+</body>
+
+</html>

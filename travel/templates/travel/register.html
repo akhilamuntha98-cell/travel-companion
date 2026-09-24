@@ -1,0 +1,115 @@
+{% extends 'travel/base.html' %}
+
+{% block content %}
+
+<div style="
+    max-width:450px;
+    margin:50px auto;
+">
+
+    <div class="card">
+
+        <div style="text-align:center;">
+
+            <div style="font-size:45px;">
+                🧳
+            </div>
+
+            <h2>
+                Create Your Account
+            </h2>
+
+            <p>
+                Start your smarter travel journey
+            </p>
+
+        </div>
+
+
+        <br>
+
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="result">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <label>
+                Username
+            </label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                required
+            >
+
+
+            <label>
+                Email
+            </label>
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter email"
+                required
+            >
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Create password"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="btn"
+                style="width:100%; margin-top:10px;"
+            >
+                Create Account
+            </button>
+
+        </form>
+
+
+        <p style="
+            text-align:center;
+            margin-top:20px;
+        ">
+
+            Already have an account?
+
+            <a href="/login/"
+               style="color:#2563eb;">
+                Login
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

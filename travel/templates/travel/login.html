@@ -1,0 +1,111 @@
+{% extends 'travel/base.html' %}
+
+{% block content %}
+
+<div style="
+    max-width:450px;
+    margin:50px auto;
+">
+
+    <div class="card">
+
+        <div style="text-align:center;">
+
+            <div style="font-size:45px;">
+                ✈️
+            </div>
+
+            <h2>
+                Welcome Back
+            </h2>
+
+            <p>
+                Continue your smart travel journey
+            </p>
+
+        </div>
+
+
+        <br>
+
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div style="
+                    background:#fee2e2;
+                    color:#991b1b;
+                    padding:12px;
+                    border-radius:8px;
+                    margin-bottom:15px;
+                ">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <label>
+                Username
+            </label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                required
+            >
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="btn"
+                style="width:100%;"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <p style="
+            text-align:center;
+            margin-top:20px;
+        ">
+
+            New traveller?
+
+            <a href="/register/"
+               style="color:#2563eb;">
+                Create Account
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

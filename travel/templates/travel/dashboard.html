@@ -1,0 +1,165 @@
+{% extends 'travel/base.html' %}
+
+{% block content %}
+
+<h1>
+    Hello, {{ request.user.username }} 👋
+</h1>
+
+<p>
+    Welcome to your Smart Travel Dashboard
+</p>
+
+
+<div class="grid">
+
+
+    <div class="card">
+
+        <div class="feature-icon">
+            📍
+        </div>
+
+        <h3>
+            Add Your Trip
+        </h3>
+
+        <p>
+            Enter your source, destination
+            and travel date.
+        </p>
+
+        <br>
+
+        <a href="/add-trip/" class="btn">
+            Add Trip
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="feature-icon">
+            🤝
+        </div>
+
+        <h3>
+            Route Matches
+        </h3>
+
+        <p>
+            Find travellers who are going
+            to the same destination.
+        </p>
+
+        <br>
+
+        <a href="/matches/" class="btn">
+            Find Matches
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="feature-icon">
+            🤖
+        </div>
+
+        <h3>
+            AI Budget Planner
+        </h3>
+
+        <p>
+            Generate an estimated travel
+            budget using GenAI.
+        </p>
+
+        <br>
+
+        <a href="/budget/" class="btn">
+            Plan With AI
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="feature-icon">
+            💰
+        </div>
+
+        <h3>
+            Expense Sharing
+        </h3>
+
+        <p>
+            Add and monitor your travel
+            expenses.
+        </p>
+
+        <br>
+
+        <a href="/expenses/" class="btn">
+            Manage Expenses
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<h2 style="margin-top:50px;">
+    My Trips
+</h2>
+
+
+<div class="grid">
+
+    {% for trip in trips %}
+
+        <div class="card">
+
+            <h3>
+                📍
+                {{ trip.source }}
+                →
+                {{ trip.destination }}
+            </h3>
+
+            <br>
+
+            <p>
+                Travel Date:
+                <strong>
+                    {{ trip.travel_date }}
+                </strong>
+            </p>
+
+        </div>
+
+    {% empty %}
+
+        <div class="card">
+
+            <p>
+                No trips added yet.
+            </p>
+
+            <br>
+
+            <a href="/add-trip/" class="btn">
+                Add Your First Trip
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

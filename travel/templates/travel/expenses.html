@@ -1,0 +1,124 @@
+{% extends 'travel/base.html' %}
+
+{% block content %}
+
+<div class="card">
+
+    <div style="text-align:center;">
+
+        <div style="font-size:45px;">
+            💰
+        </div>
+
+        <h2>
+            Travel Expense Sharing
+        </h2>
+
+        <p>
+            Add your travel expenses and
+            calculate each traveller's share.
+        </p>
+
+    </div>
+
+    <br>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="btn">
+            + Add Expense
+        </button>
+
+    </form>
+
+</div>
+
+
+<br>
+
+
+<div class="card">
+
+    <h3>
+        Total Trip Expense
+    </h3>
+
+    <br>
+
+    <h1>
+        ₹{{ total }}
+    </h1>
+
+</div>
+
+
+<h2 style="margin-top:35px;">
+    Expense History
+</h2>
+
+
+<div class="grid">
+
+    {% for expense in expense_list %}
+
+        <div class="card">
+
+            <div style="font-size:30px;">
+                💳
+            </div>
+
+            <h3>
+                {{ expense.description }}
+            </h3>
+
+            <br>
+
+            <p>
+                Paid By:
+                <strong>
+                    {{ expense.paid_by }}
+                </strong>
+            </p>
+
+            <p>
+                Total Amount:
+                <strong>
+                    ₹{{ expense.amount }}
+                </strong>
+            </p>
+
+            <p>
+                Number of Travellers:
+                <strong>
+                    {{ expense.number_of_people }}
+                </strong>
+            </p>
+
+            <p>
+                Each Person's Share:
+                <strong>
+                    ₹{{ expense.per_person_amount|floatformat:2 }}
+                </strong>
+            </p>
+
+        </div>
+
+    {% empty %}
+
+        <div class="card">
+
+            <p>
+                No expenses have been added yet.
+            </p>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

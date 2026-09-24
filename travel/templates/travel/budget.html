@@ -1,0 +1,107 @@
+{% extends 'travel/base.html' %}
+
+{% block content %}
+
+<div style="
+    max-width:650px;
+    margin:auto;
+">
+
+    <div class="card">
+
+        <div style="text-align:center;">
+
+            <div style="font-size:50px;">
+                🤖
+            </div>
+
+            <h2>
+                AI Travel Budget Planner
+            </h2>
+
+            <p>
+                Let GenAI create a personalized
+                estimated budget for your journey.
+            </p>
+
+        </div>
+
+
+        <br>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <label>
+                📍 Destination
+            </label>
+
+            <input
+                type="text"
+                name="destination"
+                placeholder="Example: Goa"
+                required
+            >
+
+
+            <label>
+                👥 Number of Travellers
+            </label>
+
+            <input
+                type="number"
+                name="people"
+                min="1"
+                placeholder="Example: 3"
+                required
+            >
+
+
+            <label>
+                📅 Number of Days
+            </label>
+
+            <input
+                type="number"
+                name="days"
+                min="1"
+                placeholder="Example: 4"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="btn"
+                style="width:100%;"
+            >
+                ✨ Generate AI Budget
+            </button>
+
+        </form>
+
+    </div>
+
+
+    {% if ai_result %}
+
+        <div class="result">
+
+            <h3>
+                ✨ Your AI Travel Estimate
+            </h3>
+
+            <br>
+
+            {{ ai_result }}
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
